@@ -1,0 +1,1 @@
+{"jsonrpc": "2.0", "id": 2, "result": {"operationId": "b8b5cbd12d9b494299e0206127f406dd", "method": "collection.sync", "session": "00000000000000000000000000000000", "createdAt": "2026-10-30T03:05:39.512Z", "updatedAt": "2026-10-30T03:05:41.080Z", "state": "succeeded", "cancellable": false, "progress": null, "result": {"collectionComplete": true, "mediaComplete": true}}}

@@ -1,0 +1,44 @@
+# Generate AnkiGlance.xcodeproj with: xcodegen generate
+name: AnkiGlance
+options:
+  bundleIdPrefix: com.guodawei
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+packages:
+  GlanceCore:
+    path: Packages/GlanceCore
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: 9KT593Q6PC
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+targets:
+  AnkiGlance:
+    type: application
+    platform: macOS
+    sources: [AnkiGlance]
+    dependencies:
+      - package: GlanceCore
+    info:
+      path: AnkiGlance/Info.plist
+      properties:
+        CFBundleDisplayName: Anki Glance
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.education
+        NSHumanReadableCopyright: Not affiliated with or endorsed by Ankitects Pty Ltd. Anki is a registered trademark of Ankitects Pty Ltd.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+    entitlements:
+      path: AnkiGlance/AnkiGlance.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.guodawei.ankiglance
+        PRODUCT_NAME: Anki Glance
+        ENABLE_HARDENED_RUNTIME: YES
