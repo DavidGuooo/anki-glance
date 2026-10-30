@@ -15,6 +15,7 @@ struct ReviewView: View {
                     Button { model.panel.reveal() } label: {
                         Text("Show Answer").frame(maxWidth: .infinity)
                     }
+                    .buttonStyle(FilledButtonStyle())
                     .help("Space")
                 }
             case .answer(let card):
@@ -37,11 +38,13 @@ struct ReviewView: View {
                 MessageView(symbol: "checkmark.seal", title: "Done for today 🎉",
                             detail: session.reviewedCount == 1 ? "You reviewed 1 card." : "You reviewed \(session.reviewedCount) cards.") {
                     Button("Back to Decks") { Task { await model.panel.showDecks() } }
+                        .buttonStyle(FilledButtonStyle(prominent: true))
                         .keyboardShortcut(.defaultAction)
                 }
             case .failed(let message):
                 MessageView(symbol: "exclamationmark.triangle", title: "Couldn't load the card", detail: message) {
                     Button("Try Again") { Task { await model.panel.startReview(session.deck) } }
+                        .buttonStyle(FilledButtonStyle(prominent: true))
                 }
             }
         }
@@ -56,7 +59,7 @@ struct ReviewView: View {
                 controls()
                 if session.canUndo {
                     Button("Undo last answer (⌘Z)") { Task { await model.panel.undo() } }
-                        .buttonStyle(.link)
+                        .buttonStyle(LinkButtonStyle())
                         .font(.caption)
                 }
             }
@@ -81,8 +84,8 @@ struct GradeButton: View {
                     .foregroundStyle(color)
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 1)
         }
+        .buttonStyle(FilledButtonStyle())
         .help("\(rating.number)")
     }
 

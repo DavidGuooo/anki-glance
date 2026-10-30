@@ -67,7 +67,7 @@ struct StatusScreen: View {
                     NSWorkspace.shared.open(URL(string: "https://ankiweb.net/shared/info/2055492159")!)
                 }
                 Button("Try Again") { Task { await model.panel.refresh() } }
-                    .buttonStyle(.link)
+                    .buttonStyle(LinkButtonStyle())
                     .font(.callout)
             }
         case .notReady:
@@ -83,7 +83,7 @@ struct StatusScreen: View {
                         copiedLogs = false
                     }
                 }
-                .buttonStyle(.link)
+                .buttonStyle(LinkButtonStyle())
                 .font(.callout)
             }
         }
@@ -91,10 +91,9 @@ struct StatusScreen: View {
 
     private func primary(_ label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(label).padding(.horizontal, 10)
+            Text(label).padding(.horizontal, 6)
         }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.large)
+        .buttonStyle(FilledButtonStyle(prominent: true))
         .keyboardShortcut(.defaultAction)
     }
 

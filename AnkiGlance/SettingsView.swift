@@ -15,6 +15,7 @@ struct SettingsView: View {
                 SecureField("API key (optional)", text: $apiKey)
                     .onSubmit(save)
                 Button("Save") { save() }
+                    .buttonStyle(FilledButtonStyle())
             }
             Section {
                 Text("Not affiliated with or endorsed by Ankitects Pty Ltd. Anki is a registered trademark of Ankitects Pty Ltd.")

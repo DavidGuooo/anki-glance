@@ -39,13 +39,14 @@ struct PanelView: View {
     }
 
     private var header: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 2) {
             Button {
                 Task { await panel.back() }
             } label: {
                 Image(systemName: "chevron.left")
             }
-            .buttonStyle(.borderless)
+            .buttonStyle(QuietButtonStyle(horizontal: 6, vertical: 4))
+            .padding(.leading, -6)
             .help("Back")
             Text(title)
                 .font(.headline)
@@ -69,7 +70,7 @@ struct PanelView: View {
             Button("Quit") { NSApp.terminate(nil) }
                 .keyboardShortcut("q", modifiers: .command)
         }
-        .buttonStyle(FooterButtonStyle())
+        .buttonStyle(QuietButtonStyle())
         .padding(.horizontal, 5)
         .padding(.vertical, 5)
     }
@@ -77,7 +78,7 @@ struct PanelView: View {
     /// Cards and settings get a fixed height; the deck list and status screens size themselves (`nil`).
     private var contentHeight: CGFloat? {
         switch panel.screen {
-        case .settings: 285
+        case .settings: 295
         case .review where model.status == nil: 220
         default: nil
         }
@@ -124,29 +125,6 @@ struct PanelView: View {
         guard let key, let action = panel.action(for: key) else { return .ignored }
         Task { await action() }
         return .handled
-    }
-}
-
-/// Footer actions: plain text that highlights on hover like the deck rows, so it reads as clickable.
-struct FooterButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        FooterButton(configuration: configuration)
-    }
-
-    private struct FooterButton: View {
-        let configuration: ButtonStyleConfiguration
-        @State private var hovering = false
-
-        var body: some View {
-            configuration.label
-                .foregroundStyle(.primary.opacity(0.85))
-                .padding(.horizontal, 8)
-                .padding(.vertical, 5)
-                .background(Color.primary.opacity(configuration.isPressed ? 0.12 : hovering ? 0.07 : 0),
-                            in: RoundedRectangle(cornerRadius: 6))
-                .contentShape(Rectangle())
-                .onHover { hovering = $0 }
-        }
     }
 }
 

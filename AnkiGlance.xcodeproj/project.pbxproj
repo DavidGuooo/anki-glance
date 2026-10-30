@@ -12,6 +12,7 @@
 		53CD6EC3C7DFFA36C25B9BB4 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF31C408406D1B74957A548D /* ReviewView.swift */; };
 		6FA0AC4F56C72A4BF9C9F9F9 /* CardWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31BE06FC14FC51F5F950136 /* CardWebView.swift */; };
 		B44D2CCD46ADFE8B816DAECD /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D44EAF1C4BF1CFA90112B0 /* PanelView.swift */; };
+		C562D9560C78B84FA813696F /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB726F353DB18AF63DD3029 /* ButtonStyles.swift */; };
 		D48ED56A4616A7365029B269 /* StatusScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF9BD1636C6B3420D3BDA64 /* StatusScreen.swift */; };
 		D9B61C7CFDC9448D41042382 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A95A71CC52B9353B144566D /* AppModel.swift */; };
 		E6ABF7F7F97CF86E9F2DB37C /* Diagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BA09AAC1D2FC97ECA5E74 /* Diagnostics.swift */; };
@@ -30,6 +31,7 @@
 		70E9810D9CDB9F2545B70020 /* GlanceCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GlanceCore; path = Packages/GlanceCore; sourceTree = SOURCE_ROOT; };
 		B31BE06FC14FC51F5F950136 /* CardWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWebView.swift; sourceTree = "<group>"; };
 		B3902DEBC12AD3EF6DF23DCD /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BCB726F353DB18AF63DD3029 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		C2E07D0F1E89FD18D14DFB89 /* PanelPreviewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelPreviewWindow.swift; sourceTree = "<group>"; };
 		CF31C408406D1B74957A548D /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		F2802CDB5BB0BDFB97E5474E /* AnkiGlanceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiGlanceApp.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 				4E2AE2913C9CDCC7DD21CB6D /* AnkiGlance.entitlements */,
 				F2802CDB5BB0BDFB97E5474E /* AnkiGlanceApp.swift */,
 				4A95A71CC52B9353B144566D /* AppModel.swift */,
+				BCB726F353DB18AF63DD3029 /* ButtonStyles.swift */,
 				B31BE06FC14FC51F5F950136 /* CardWebView.swift */,
 				33D3DCFF54756CB0D5E685A5 /* DeckListView.swift */,
 				298BA09AAC1D2FC97ECA5E74 /* Diagnostics.swift */,
@@ -159,6 +162,7 @@
 			files = (
 				F52CE2EFF07DEB499776DAB6 /* AnkiGlanceApp.swift in Sources */,
 				D9B61C7CFDC9448D41042382 /* AppModel.swift in Sources */,
+				C562D9560C78B84FA813696F /* ButtonStyles.swift in Sources */,
 				6FA0AC4F56C72A4BF9C9F9F9 /* CardWebView.swift in Sources */,
 				FC8A130BF321B2051389F352 /* DeckListView.swift in Sources */,
 				E6ABF7F7F97CF86E9F2DB37C /* Diagnostics.swift in Sources */,
