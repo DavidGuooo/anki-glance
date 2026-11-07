@@ -46,7 +46,7 @@ struct FilledButtonStyle: ButtonStyle {
     }
 }
 
-/// Accent-colored text that underlines on hover: Try Again, Copy Logs, Undo.
+/// Accent-colored text that underlines on hover: Try Again, Copy Logs.
 struct LinkButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         Hovering { hovering in

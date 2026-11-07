@@ -15,22 +15,18 @@ struct ReviewView: View {
                 ProgressView().controlSize(.small)
             case .question(let card):
                 CardPanel(html: card.questionHtml, media: model.media, grows: false) {
-                    withUndo {
-                        Button { model.panel.reveal() } label: {
-                            Text("Show Answer").frame(maxWidth: .infinity)
-                        }
-                        .buttonStyle(FilledButtonStyle())
-                        .help("Space")
+                    Button { model.panel.reveal() } label: {
+                        Text("Show Answer").frame(maxWidth: .infinity)
                     }
+                    .buttonStyle(FilledButtonStyle())
+                    .help("Space")
                 }
             case .answer(let card):
                 CardPanel(html: card.answerHtml, media: model.media, grows: true) {
-                    withUndo {
-                        HStack(spacing: 4) {
-                            ForEach(Rating.allCases, id: \.self) { rating in
-                                GradeButton(rating: rating, interval: card.prediction.label(for: rating)) {
-                                    Task { await model.panel.grade(rating) }
-                                }
+                    HStack(spacing: 4) {
+                        ForEach(Rating.allCases, id: \.self) { rating in
+                            GradeButton(rating: rating, interval: card.prediction.label(for: rating)) {
+                                Task { await model.panel.grade(rating) }
                             }
                         }
                     }
@@ -61,17 +57,6 @@ struct ReviewView: View {
 
     private var isAnswer: Bool {
         if case .answer = session.phase { true } else { false }
-    }
-
-    private func withUndo(@ViewBuilder _ controls: () -> some View) -> some View {
-        VStack(spacing: 3) {
-            controls()
-            if session.canUndo {
-                Button("Undo last answer (⌘Z)") { Task { await model.panel.undo() } }
-                    .buttonStyle(LinkButtonStyle())
-                    .font(.caption)
-            }
-        }
     }
 }
 
