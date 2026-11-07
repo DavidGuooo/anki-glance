@@ -75,13 +75,9 @@ struct PanelView: View {
         .padding(.vertical, 5)
     }
 
-    /// Cards and settings get a fixed height; the deck list and status screens size themselves (`nil`).
+    /// Settings gets a fixed height; everything else sizes itself (`nil`), reviews within `ReviewView.heights`.
     private var contentHeight: CGFloat? {
-        switch panel.screen {
-        case .settings: 295
-        case .review where model.status == nil: 220
-        default: nil
-        }
+        panel.screen == .settings ? 295 : nil
     }
 
     /// The deck list is narrow; status screens need room for the one-line tagline; cards and settings get the most.

@@ -2,6 +2,9 @@ import GlanceCore
 import SwiftUI
 
 struct ReviewView: View {
+    /// Everything shows at the lower bound; an answer grows the panel to fit, up to the upper bound, then scrolls.
+    static let heights: ClosedRange<CGFloat> = 320...640
+
     @Environment(AppModel.self) private var model
     let session: ReviewSession
 
@@ -11,19 +14,23 @@ struct ReviewView: View {
             case .loading:
                 ProgressView().controlSize(.small)
             case .question(let card):
-                cardView(html: card.questionHtml) {
-                    Button { model.panel.reveal() } label: {
-                        Text("Show Answer").frame(maxWidth: .infinity)
+                CardPanel(html: card.questionHtml, media: model.media, grows: false) {
+                    withUndo {
+                        Button { model.panel.reveal() } label: {
+                            Text("Show Answer").frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(FilledButtonStyle())
+                        .help("Space")
                     }
-                    .buttonStyle(FilledButtonStyle())
-                    .help("Space")
                 }
             case .answer(let card):
-                cardView(html: card.answerHtml) {
-                    HStack(spacing: 4) {
-                        ForEach(Rating.allCases, id: \.self) { rating in
-                            GradeButton(rating: rating, interval: card.prediction.label(for: rating)) {
-                                Task { await model.panel.grade(rating) }
+                CardPanel(html: card.answerHtml, media: model.media, grows: true) {
+                    withUndo {
+                        HStack(spacing: 4) {
+                            ForEach(Rating.allCases, id: \.self) { rating in
+                                GradeButton(rating: rating, interval: card.prediction.label(for: rating)) {
+                                    Task { await model.panel.grade(rating) }
+                                }
                             }
                         }
                     }
@@ -48,23 +55,50 @@ struct ReviewView: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity)
+        .frame(height: isAnswer ? nil : Self.heights.lowerBound)
     }
 
-    private func cardView(html: String, @ViewBuilder controls: () -> some View) -> some View {
-        VStack(spacing: 0) {
-            CardWebView(html: html, media: model.media)
-            Divider()
-            VStack(spacing: 3) {
-                controls()
-                if session.canUndo {
-                    Button("Undo last answer (⌘Z)") { Task { await model.panel.undo() } }
-                        .buttonStyle(LinkButtonStyle())
-                        .font(.caption)
-                }
+    private var isAnswer: Bool {
+        if case .answer = session.phase { true } else { false }
+    }
+
+    private func withUndo(@ViewBuilder _ controls: () -> some View) -> some View {
+        VStack(spacing: 3) {
+            controls()
+            if session.canUndo {
+                Button("Undo last answer (⌘Z)") { Task { await model.panel.undo() } }
+                    .buttonStyle(LinkButtonStyle())
+                    .font(.caption)
             }
-            .padding(7)
         }
+    }
+}
+
+/// A card with its buttons below. A growing one is as tall as its content within `ReviewView.heights`.
+/// Each phase gets its own instance, so a new answer starts measuring from scratch.
+struct CardPanel<Controls: View>: View {
+    let html: String
+    let media: MediaCache
+    let grows: Bool
+    @ViewBuilder var controls: Controls
+    @State private var cardHeight: CGFloat = 0
+    @State private var controlsHeight: CGFloat = 0
+
+    var body: some View {
+        VStack(spacing: 0) {
+            CardWebView(html: html, media: media) { cardHeight = $0 }
+            Divider()
+            controls
+                .padding(7)
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { controlsHeight = $0 }
+        }
+        .frame(height: grows ? fittedHeight : nil)
+    }
+
+    private var fittedHeight: CGFloat {
+        let content = (cardHeight + 1 + controlsHeight).rounded(.up)
+        return min(max(content, ReviewView.heights.lowerBound), ReviewView.heights.upperBound)
     }
 }
 

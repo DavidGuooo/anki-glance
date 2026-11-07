@@ -8,6 +8,8 @@ import WebKit
 struct CardWebView: NSViewRepresentable {
     let html: String
     let media: MediaCache
+    /// Called with the rendered card's height in points, again whenever it changes (an image loading, say).
+    var onHeightChange: @MainActor (CGFloat) -> Void = { _ in }
     @Environment(\.colorScheme) private var colorScheme
 
     func makeCoordinator() -> Coordinator { Coordinator() }
@@ -15,6 +17,9 @@ struct CardWebView: NSViewRepresentable {
     func makeNSView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
         configuration.setURLSchemeHandler(MediaSchemeHandler(media: media), forURLScheme: MediaSchemeHandler.scheme)
+        configuration.userContentController.addUserScript(WKUserScript(
+            source: Self.heightScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true))
+        configuration.userContentController.add(context.coordinator, name: Self.heightMessage)
         let view = PassiveWebView(frame: .zero, configuration: configuration)
         view.setValue(false, forKey: "drawsBackground")
         view.navigationDelegate = context.coordinator
@@ -22,6 +27,7 @@ struct CardWebView: NSViewRepresentable {
     }
 
     func updateNSView(_ view: WKWebView, context: Context) {
+        context.coordinator.onHeightChange = onHeightChange
         let page = Self.page(for: html, dark: colorScheme == .dark)
         guard page != context.coordinator.loadedPage else { return }
         context.coordinator.loadedPage = page
@@ -45,8 +51,23 @@ struct CardWebView: NSViewRepresentable {
         """
     }
 
-    final class Coordinator: NSObject, WKNavigationDelegate {
+    private static let heightMessage = "height"
+
+    /// The root element's height is the content's height, never the viewport's, so it can shrink as well as grow.
+    private static let heightScript = """
+        new ResizeObserver(() => {
+            webkit.messageHandlers.\(heightMessage).postMessage(document.documentElement.getBoundingClientRect().height);
+        }).observe(document.documentElement);
+        """
+
+    final class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         var loadedPage: String?
+        var onHeightChange: @MainActor (CGFloat) -> Void = { _ in }
+
+        func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
+            guard let height = message.body as? Double else { return }
+            MainActor.assumeIsolated { onHeightChange(CGFloat(height)) }
+        }
 
         /// Only the card itself loads in the panel; links open in the default browser.
         func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction) async -> WKNavigationActionPolicy {
