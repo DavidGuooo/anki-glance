@@ -3,6 +3,7 @@ import Observation
 
 public struct ShownCard: Sendable, Equatable {
     public let id: CardID
+    public let noteId: String
     public let questionHtml: String
     public let answerHtml: String
     public let prediction: Prediction
@@ -34,6 +35,10 @@ public final class ReviewSession {
     private var lastAnswered: CardID?
     private var busy = false
     private let now: @Sendable () -> Date
+    /// The next card, loading from the moment the current one is shown so grading only waits for the answer to save.
+    private var prefetch: Task<ShownCard?, Never>?
+    /// Called once a prefetched card has loaded, so its images can load too.
+    @ObservationIgnored public var onPrefetched: ((ShownCard) -> Void)?
 
     public init(deck: String, anki: AnkiService, queue: QueueSource, timer: AnswerTimer = AnswerTimer(),
                 now: @escaping @Sendable () -> Date = { Date() }) {
@@ -54,6 +59,8 @@ public final class ReviewSession {
 
     public func grade(_ rating: Rating) async {
         guard case .answer(let card) = phase else { return }
+        let prefetched = prefetch
+        prefetch = nil
         await perform {
             var token = card.prediction.stateToken
             if self.now().timeIntervalSince(card.predictedAt) > Self.tokenLifetime {
@@ -63,18 +70,27 @@ public final class ReviewSession {
                 try await self.anki.answer(card.id, rating: rating, stateToken: token, elapsedMs: self.timer.elapsedMs)
             } catch AnkiConnectError.rpc(_, let type, _) where type == "conflict" || type == "staleSession" || type == "invalidState" {
                 // The card changed in Anki since it was shown (answered on another device, for example): move on without counting it.
+                prefetched?.cancel()
                 try await self.advance()
                 return
             }
             self.reviewedCount += 1
             self.lastAnswered = card.id
             self.canUndo = true
-            try await self.advance()
+            // A learning card that came due while this one was on screen is still picked right after the prefetched card.
+            if let next = await prefetched?.value {
+                await self.queue.take(next.id)
+                self.present(next)
+            } else {
+                try await self.advance()
+            }
         }
     }
 
     public func undo() async {
         guard canUndo, let id = lastAnswered else { return }
+        prefetch?.cancel()
+        prefetch = nil
         await perform {
             try await self.anki.undo()
             self.reviewedCount -= 1
@@ -128,11 +144,27 @@ public final class ReviewSession {
     }
 
     private func show(_ id: CardID) async throws {
+        present(try await load(id))
+    }
+
+    private func load(_ id: CardID) async throws -> ShownCard {
         async let rendered = anki.render(id)
         async let prediction = anki.predict(id)
-        let card = try await ShownCard(id: id, questionHtml: rendered.questionHtml, answerHtml: rendered.answerHtml,
-                                       prediction: prediction, predictedAt: now())
+        async let noteId = anki.noteId(id)
+        return try await ShownCard(id: id, noteId: noteId, questionHtml: rendered.questionHtml, answerHtml: rendered.answerHtml,
+                                   prediction: prediction, predictedAt: now())
+    }
+
+    private func present(_ card: ShownCard) {
         phase = .question(card)
         timer.restart()
+        prefetch?.cancel()
+        let current = PendingCard(id: card.id, noteId: card.noteId)
+        prefetch = Task {
+            guard let id = try? await queue.peek(deck: deck, after: current),
+                  let next = try? await load(id), !Task.isCancelled else { return nil }
+            onPrefetched?(next)
+            return next
+        }
     }
 }

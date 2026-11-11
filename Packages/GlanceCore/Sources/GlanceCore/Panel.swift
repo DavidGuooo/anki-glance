@@ -68,6 +68,8 @@ public final class Panel {
     public private(set) var isLaunchingAnki = false
     /// Reports notable events (connection changes, launches, syncs) for diagnostics.
     @ObservationIgnored public var onEvent: ((String) -> Void)?
+    /// Called when a review has loaded its next card ahead of time, so the app can load the card's images.
+    @ObservationIgnored public var onCardPrefetched: ((ShownCard) -> Void)?
 
     private let anki: AnkiService
     private let queue: QueueSource
@@ -164,6 +166,7 @@ public final class Panel {
     /// Shows a review session that's already set up. Debug previews use this to show a single card.
     public func show(_ session: ReviewSession) async {
         self.session = session
+        session.onPrefetched = onCardPrefetched
         screen = .review
         await session.start()
     }

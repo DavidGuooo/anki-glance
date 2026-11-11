@@ -55,6 +55,8 @@ public protocol AnkiService: Sendable {
     func schedules(_ ids: [CardID]) async throws -> [CardSchedule]
     func nextDayStarts() async throws -> Date
     func render(_ id: CardID) async throws -> RenderedCard
+    /// The note a card belongs to; its other cards are its siblings.
+    func noteId(_ id: CardID) async throws -> String
     func predict(_ id: CardID) async throws -> Prediction
     func answer(_ id: CardID, rating: Rating, stateToken: String, elapsedMs: Int) async throws
     func undo() async throws
@@ -165,6 +167,13 @@ public struct AnkiConnectClient: AnkiService {
     public func render(_ id: CardID) async throws -> RenderedCard {
         struct Params: Encodable { let id: CardID }
         return try await call("cards.render", Params(id: id))
+    }
+
+    public func noteId(_ id: CardID) async throws -> String {
+        struct Params: Encodable { let id: CardID }
+        struct Card: Decodable { let noteId: String }
+        let card: Card = try await call("cards.get", Params(id: id))
+        return card.noteId
     }
 
     public func predict(_ id: CardID) async throws -> Prediction {

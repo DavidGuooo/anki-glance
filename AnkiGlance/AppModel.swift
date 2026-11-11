@@ -74,8 +74,10 @@ final class AppModel {
                                   diagnostics: Diagnostics) -> (AnkiConnectClient, Panel, MediaCache) {
         let client = AnkiConnectClient(transport: URLSessionTransport(port: port, apiKey: apiKey.isEmpty ? nil : apiKey))
         let panel = Panel(anki: client, sync: client, ankiApp: ankiApp, store: lastDeck)
+        let media = MediaCache { try await client.media($0) }
         panel.onEvent = { [diagnostics] in diagnostics.record($0) }
-        return (client, panel, MediaCache { try await client.media($0) })
+        panel.onCardPrefetched = { card in Task { await media.preload(html: card.questionHtml + card.answerHtml) } }
+        return (client, panel, media)
     }
 
     private func setUpLoginItemOnFirstLaunch() {

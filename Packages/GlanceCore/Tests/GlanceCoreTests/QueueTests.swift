@@ -72,6 +72,74 @@ struct QueueTests {
         #expect(try await LocalQueueSource(anki: anki, now: clock.closure).next(deck: "General") == .done)
     }
 
+    // MARK: Peeking at the card after the current one
+
+    func excluding(_ note: String, _ query: String) -> String {
+        query.replacingOccurrences(of: scope, with: "\(scope) -nid:\(note)")
+    }
+
+    @Test func peekLeavesOutTheCurrentNote() async throws {
+        let anki = FakeAnki()
+        anki.set(counts: DeckCounts(new: 0, learning: 0, review: 2))
+        anki.set(review, ["R1", "R2"])
+        anki.set(excluding("nR1", review), ["R2"])
+        let queue = LocalQueueSource(anki: anki)
+        #expect(try await queue.next(deck: "General") == .card("R1"))
+        #expect(try await queue.peek(deck: "General", after: PendingCard(id: "R1", noteId: "nR1")) == "R2")
+    }
+
+    @Test func peekNeedsToKnowWhereTheCurrentCardCameFrom() async throws {
+        let anki = FakeAnki()
+        anki.set(counts: DeckCounts(new: 0, learning: 0, review: 1))
+        anki.set(excluding("nX", review), ["R2"])
+        #expect(try await LocalQueueSource(anki: anki).peek(deck: "General", after: PendingCard(id: "X", noteId: "nX")) == nil)
+    }
+
+    @Test func peekCountsTheCurrentCardAgainstItsLimit() async throws {
+        let anki = FakeAnki()
+        anki.set(counts: DeckCounts(new: 1, learning: 0, review: 0))
+        anki.set(new, ["N1"])
+        anki.set(excluding("nN1", new), ["N2"])
+        let queue = LocalQueueSource(anki: anki)
+        #expect(try await queue.next(deck: "General") == .card("N1"))
+        // N1 is the last new card allowed today, so nothing new comes after it.
+        #expect(try await queue.peek(deck: "General", after: PendingCard(id: "N1", noteId: "nN1")) == nil)
+    }
+
+    @Test func peekLeavesLearningCardsShownEarlyToTheQueue() async throws {
+        let clock = TestClock()
+        let anki = FakeAnki()
+        anki.set(counts: DeckCounts(new: 0, learning: 0, review: 1))
+        anki.set(review, ["R1"])
+        anki.set(excluding("nR1", learning), ["L1"])
+        anki.set(schedules: [CardSchedule(id: "L1", queue: "learning", due: .timestamp(clock.now + 5 * 60))])
+        let queue = LocalQueueSource(anki: anki, now: clock.closure)
+        #expect(try await queue.next(deck: "General") == .card("R1"))
+        #expect(try await queue.peek(deck: "General", after: PendingCard(id: "R1", noteId: "nR1")) == nil)
+    }
+
+    @Test func peekedCardOnlyCountsOnceTaken() async throws {
+        let anki = FakeAnki()
+        anki.set(counts: DeckCounts(new: 2, learning: 0, review: 6))
+        anki.set(new, ["N1"])
+        anki.set(review, ["R1"])
+        anki.set(excluding("nR1", review), ["R2"])
+        let current = PendingCard(id: "R1", noteId: "nR1")
+
+        let untaken = LocalQueueSource(anki: anki)
+        _ = try await untaken.next(deck: "General")
+        #expect(try await untaken.peek(deck: "General", after: current) == "R2")
+        #expect(try await untaken.next(deck: "General") == .card("R1"))
+        #expect(try await untaken.next(deck: "General") == .card("R1"))
+
+        let taken = LocalQueueSource(anki: anki)
+        _ = try await taken.next(deck: "General")
+        #expect(try await taken.peek(deck: "General", after: current) == "R2")
+        await taken.take("R2")
+        #expect(try await taken.next(deck: "General") == .card("R1"))
+        #expect(try await taken.next(deck: "General") == .card("N1"))
+    }
+
     @Test func escapesDeckNamesInSearches() {
         #expect(LocalQueueSource.deckQuery("My_Deck::\"A*\"") == #"deck:"My\_Deck::\"A\*\"""#)
     }

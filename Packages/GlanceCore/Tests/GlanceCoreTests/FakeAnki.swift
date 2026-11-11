@@ -42,6 +42,9 @@ final class FakeAnki: AnkiService, @unchecked Sendable {
     func render(_ id: CardID) async throws -> RenderedCard {
         RenderedCard(cardId: id, questionHtml: "Q \(id)", answerHtml: "A \(id)")
     }
+    /// Notes by card, for siblings; a card not listed is alone on its note.
+    var notes: [CardID: String] = [:]
+    func noteId(_ id: CardID) async throws -> String { notes[id] ?? "note-\(id)" }
     func predict(_ id: CardID) async throws -> Prediction {
         let count = lock.withLock { predictions.append(id); return predictions.count }
         return Prediction(stateToken: "token-\(id)-\(count)", answers: Rating.allCases.map { .init(rating: $0, label: "\u{2068}1\u{2069}d") })
@@ -58,6 +61,25 @@ actor ScriptedQueue: QueueSource {
     private var steps: [QueueStep]
     init(_ steps: [QueueStep]) { self.steps = steps }
     func next(deck: String) async throws -> QueueStep { steps.isEmpty ? .done : steps.removeFirst() }
+}
+
+/// A scripted queue that also answers `peek`, and records what was peeked and taken.
+actor PeekingQueue: QueueSource {
+    private var steps: [QueueStep]
+    private var peeks: [CardID?]
+    private(set) var nextCalls = 0
+    private(set) var peeked: [PendingCard] = []
+    private(set) var taken: [CardID] = []
+    init(_ steps: [QueueStep], peeks: [CardID?]) { self.steps = steps; self.peeks = peeks }
+    func next(deck: String) async throws -> QueueStep {
+        nextCalls += 1
+        return steps.isEmpty ? .done : steps.removeFirst()
+    }
+    func peek(deck: String, after current: PendingCard) async throws -> CardID? {
+        peeked.append(current)
+        return peeks.isEmpty ? nil : peeks.removeFirst()
+    }
+    func take(_ id: CardID) async { taken.append(id) }
 }
 
 /// A clock tests can move forward.
