@@ -9,15 +9,30 @@
 /* Begin PBXBuildFile section */
 		04BB64FE0E6446B0018683BD /* PanelPreviewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07D0F1E89FD18D14DFB89 /* PanelPreviewWindow.swift */; };
 		0DFEA6B07E1ACC7BDF6E4031 /* GlanceCore in Frameworks */ = {isa = PBXBuildFile; productRef = A91E551E83CF3C31CEBDEBF0 /* GlanceCore */; };
+		1B1B1DE3A762105085F138C9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3902DEBC12AD3EF6DF23DCD /* SettingsView.swift */; };
+		1EC52EF84EF6A6112276D2F9 /* AnkiGlanceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2802CDB5BB0BDFB97E5474E /* AnkiGlanceApp.swift */; };
+		2BFD4FDCA02F12139973EB5D /* Diagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BA09AAC1D2FC97ECA5E74 /* Diagnostics.swift */; };
+		44A5A0DBFF87A8F555388633 /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6681A42D08717453DC1FBB4D /* Updater.swift */; };
 		53CD6EC3C7DFFA36C25B9BB4 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF31C408406D1B74957A548D /* ReviewView.swift */; };
+		5525B877161395E818CDC9B4 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF31C408406D1B74957A548D /* ReviewView.swift */; };
+		6647CB2620D31995876E2DB0 /* CardWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31BE06FC14FC51F5F950136 /* CardWebView.swift */; };
 		6FA0AC4F56C72A4BF9C9F9F9 /* CardWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31BE06FC14FC51F5F950136 /* CardWebView.swift */; };
+		75216D347CE2220CE0864FA7 /* DeckListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3DCFF54756CB0D5E685A5 /* DeckListView.swift */; };
+		7A31957CEEFD810DD1632F52 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB726F353DB18AF63DD3029 /* ButtonStyles.swift */; };
+		7F816591ABF35566EE938626 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D44EAF1C4BF1CFA90112B0 /* PanelView.swift */; };
+		9D9C19F3A4D372142AEB26A8 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 27DA27ABF01C8AB1DD887331 /* Sparkle */; };
 		B44D2CCD46ADFE8B816DAECD /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D44EAF1C4BF1CFA90112B0 /* PanelView.swift */; };
 		C562D9560C78B84FA813696F /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB726F353DB18AF63DD3029 /* ButtonStyles.swift */; };
+		C8A414E51C00C44A845992A1 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A95A71CC52B9353B144566D /* AppModel.swift */; };
+		CCE30E8534E0D0B3C2A833A2 /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6681A42D08717453DC1FBB4D /* Updater.swift */; };
 		D48ED56A4616A7365029B269 /* StatusScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF9BD1636C6B3420D3BDA64 /* StatusScreen.swift */; };
 		D9B61C7CFDC9448D41042382 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A95A71CC52B9353B144566D /* AppModel.swift */; };
+		DE408E2F7F3D4587DECDE721 /* StatusScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF9BD1636C6B3420D3BDA64 /* StatusScreen.swift */; };
+		DFBF39FE2487C1666DEFE738 /* GlanceCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4C1EDA7FACAF731206193E78 /* GlanceCore */; };
 		E6ABF7F7F97CF86E9F2DB37C /* Diagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BA09AAC1D2FC97ECA5E74 /* Diagnostics.swift */; };
 		EA30BE2A94276982DBA8D344 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3902DEBC12AD3EF6DF23DCD /* SettingsView.swift */; };
 		F52CE2EFF07DEB499776DAB6 /* AnkiGlanceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2802CDB5BB0BDFB97E5474E /* AnkiGlanceApp.swift */; };
+		FAD86D38AE4CDE91FC9278E2 /* PanelPreviewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E07D0F1E89FD18D14DFB89 /* PanelPreviewWindow.swift */; };
 		FC8A130BF321B2051389F352 /* DeckListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3DCFF54756CB0D5E685A5 /* DeckListView.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,9 +41,9 @@
 		298BA09AAC1D2FC97ECA5E74 /* Diagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diagnostics.swift; sourceTree = "<group>"; };
 		33D3DCFF54756CB0D5E685A5 /* DeckListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckListView.swift; sourceTree = "<group>"; };
 		4A95A71CC52B9353B144566D /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
-		4E2AE2913C9CDCC7DD21CB6D /* AnkiGlance.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnkiGlance.entitlements; sourceTree = "<group>"; };
-		54B15E8C33B4257A22FE3733 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6681A42D08717453DC1FBB4D /* Updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
 		70E9810D9CDB9F2545B70020 /* GlanceCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GlanceCore; path = Packages/GlanceCore; sourceTree = SOURCE_ROOT; };
+		7A9BD58CB015AC53258BBEE8 /* AnkiGlanceAppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnkiGlanceAppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B31BE06FC14FC51F5F950136 /* CardWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWebView.swift; sourceTree = "<group>"; };
 		B3902DEBC12AD3EF6DF23DCD /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BCB726F353DB18AF63DD3029 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
@@ -40,11 +55,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3A30230FFA9376650E8603A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFBF39FE2487C1666DEFE738 /* GlanceCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EC79462C4FA816F56E610B4A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0DFEA6B07E1ACC7BDF6E4031 /* GlanceCore in Frameworks */,
+				9D9C19F3A4D372142AEB26A8 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,19 +78,18 @@
 		1A2BB5E893F3C62EAA01F3F1 /* AnkiGlance */ = {
 			isa = PBXGroup;
 			children = (
-				4E2AE2913C9CDCC7DD21CB6D /* AnkiGlance.entitlements */,
 				F2802CDB5BB0BDFB97E5474E /* AnkiGlanceApp.swift */,
 				4A95A71CC52B9353B144566D /* AppModel.swift */,
 				BCB726F353DB18AF63DD3029 /* ButtonStyles.swift */,
 				B31BE06FC14FC51F5F950136 /* CardWebView.swift */,
 				33D3DCFF54756CB0D5E685A5 /* DeckListView.swift */,
 				298BA09AAC1D2FC97ECA5E74 /* Diagnostics.swift */,
-				54B15E8C33B4257A22FE3733 /* Info.plist */,
 				C2E07D0F1E89FD18D14DFB89 /* PanelPreviewWindow.swift */,
 				F9D44EAF1C4BF1CFA90112B0 /* PanelView.swift */,
 				CF31C408406D1B74957A548D /* ReviewView.swift */,
 				B3902DEBC12AD3EF6DF23DCD /* SettingsView.swift */,
 				1EF9BD1636C6B3420D3BDA64 /* StatusScreen.swift */,
+				6681A42D08717453DC1FBB4D /* Updater.swift */,
 			);
 			path = AnkiGlance;
 			sourceTree = "<group>";
@@ -83,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				F7D9F3BE56183162552A87DD /* AnkiGlance.app */,
+				7A9BD58CB015AC53258BBEE8 /* AnkiGlanceAppStore.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +123,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		ABAE957FA773F67F2421BAB3 /* AnkiGlanceAppStore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3B0CC2360E7C05436EBF871 /* Build configuration list for PBXNativeTarget "AnkiGlanceAppStore" */;
+			buildPhases = (
+				7EEF725B997778978D432637 /* Sources */,
+				3A30230FFA9376650E8603A8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnkiGlanceAppStore;
+			packageProductDependencies = (
+				4C1EDA7FACAF731206193E78 /* GlanceCore */,
+			);
+			productName = AnkiGlanceAppStore;
+			productReference = 7A9BD58CB015AC53258BBEE8 /* AnkiGlanceAppStore.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E2DB996481B3B0DFB6D534F3 /* AnkiGlance */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 154402C41A36012C556E08A8 /* Build configuration list for PBXNativeTarget "AnkiGlance" */;
@@ -113,6 +156,7 @@
 			name = AnkiGlance;
 			packageProductDependencies = (
 				A91E551E83CF3C31CEBDEBF0 /* GlanceCore */,
+				27DA27ABF01C8AB1DD887331 /* Sparkle */,
 			);
 			productName = AnkiGlance;
 			productReference = F7D9F3BE56183162552A87DD /* AnkiGlance.app */;
@@ -127,6 +171,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					ABAE957FA773F67F2421BAB3 = {
+						DevelopmentTeam = 9KT593Q6PC;
+						ProvisioningStyle = Automatic;
+					};
 					E2DB996481B3B0DFB6D534F3 = {
 						DevelopmentTeam = 9KT593Q6PC;
 						ProvisioningStyle = Automatic;
@@ -143,6 +191,7 @@
 			mainGroup = B974BF2218C7E64EDA3CCD44;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				EE000535310A17A5C0F996D4 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				2326B5E2F308C3A6B746CF9A /* XCLocalSwiftPackageReference "Packages/GlanceCore" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -151,11 +200,31 @@
 			projectRoot = "";
 			targets = (
 				E2DB996481B3B0DFB6D534F3 /* AnkiGlance */,
+				ABAE957FA773F67F2421BAB3 /* AnkiGlanceAppStore */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7EEF725B997778978D432637 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EC52EF84EF6A6112276D2F9 /* AnkiGlanceApp.swift in Sources */,
+				C8A414E51C00C44A845992A1 /* AppModel.swift in Sources */,
+				7A31957CEEFD810DD1632F52 /* ButtonStyles.swift in Sources */,
+				6647CB2620D31995876E2DB0 /* CardWebView.swift in Sources */,
+				75216D347CE2220CE0864FA7 /* DeckListView.swift in Sources */,
+				2BFD4FDCA02F12139973EB5D /* Diagnostics.swift in Sources */,
+				FAD86D38AE4CDE91FC9278E2 /* PanelPreviewWindow.swift in Sources */,
+				7F816591ABF35566EE938626 /* PanelView.swift in Sources */,
+				5525B877161395E818CDC9B4 /* ReviewView.swift in Sources */,
+				1B1B1DE3A762105085F138C9 /* SettingsView.swift in Sources */,
+				DE408E2F7F3D4587DECDE721 /* StatusScreen.swift in Sources */,
+				CCE30E8534E0D0B3C2A833A2 /* Updater.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0C039DA2863785056AEC0B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -171,20 +240,21 @@
 				53CD6EC3C7DFFA36C25B9BB4 /* ReviewView.swift in Sources */,
 				EA30BE2A94276982DBA8D344 /* SettingsView.swift in Sources */,
 				D48ED56A4616A7365029B269 /* StatusScreen.swift in Sources */,
+				44A5A0DBFF87A8F555388633 /* Updater.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		6F9643342458750CD6545C8A /* Release */ = {
+		14AEEF7A71A6BDC80FB34890 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = AnkiGlance/AnkiGlance.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Config/AppStore.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = AnkiGlance/Info.plist;
+				INFOPLIST_FILE = "Config/AppStore-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -192,6 +262,25 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.guodawei.ankiglance;
 				PRODUCT_NAME = "Anki Glance";
 				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		6F9643342458750CD6545C8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Config/Direct.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Config/Direct-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.guodawei.ankiglance;
+				PRODUCT_NAME = "Anki Glance";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SPARKLE";
 			};
 			name = Release;
 		};
@@ -263,14 +352,14 @@
 			};
 			name = Debug;
 		};
-		C1E6838F8CF1A2479BB47575 /* Debug */ = {
+		B45CC3AE7510A5644E0C6EEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = AnkiGlance/AnkiGlance.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Config/AppStore.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = AnkiGlance/Info.plist;
+				INFOPLIST_FILE = "Config/AppStore-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -278,6 +367,25 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.guodawei.ankiglance;
 				PRODUCT_NAME = "Anki Glance";
 				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C1E6838F8CF1A2479BB47575 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Config/Direct.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Config/Direct-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.guodawei.ankiglance;
+				PRODUCT_NAME = "Anki Glance";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SPARKLE";
 			};
 			name = Debug;
 		};
@@ -363,6 +471,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		B3B0CC2360E7C05436EBF871 /* Build configuration list for PBXNativeTarget "AnkiGlanceAppStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B45CC3AE7510A5644E0C6EEE /* Debug */,
+				14AEEF7A71A6BDC80FB34890 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -372,7 +489,27 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		EE000535310A17A5C0F996D4 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		27DA27ABF01C8AB1DD887331 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE000535310A17A5C0F996D4 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+		4C1EDA7FACAF731206193E78 /* GlanceCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GlanceCore;
+		};
 		A91E551E83CF3C31CEBDEBF0 /* GlanceCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GlanceCore;

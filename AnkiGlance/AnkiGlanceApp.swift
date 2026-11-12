@@ -5,6 +5,9 @@ struct AnkiGlanceApp: App {
     @State private var model = AppModel()
 
     init() {
+        #if SPARKLE
+        _ = Updater.shared  // starts the scheduled background checks
+        #endif
         #if DEBUG
         if CommandLine.arguments.contains("--preview-panel") { PanelPreviewWindow.show(model: model) }
         #endif

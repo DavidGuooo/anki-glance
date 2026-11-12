@@ -1,4 +1,9 @@
 # Generate AnkiGlance.xcodeproj with: xcodegen generate
+#
+# Two targets build the same sources:
+#   AnkiGlance          direct download; updates itself with Sparkle (compiled with SPARKLE)
+#   AnkiGlanceAppStore  Mac App Store; no Sparkle in the binary, the store updates it
+# The release scripts override MARKETING_VERSION and CURRENT_PROJECT_VERSION; see scripts/.
 name: AnkiGlance
 options:
   bundleIdPrefix: com.guodawei
@@ -8,6 +13,9 @@ options:
 packages:
   GlanceCore:
     path: Packages/GlanceCore
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: 2.10.1
 settings:
   base:
     SWIFT_VERSION: "6.0"
@@ -16,24 +24,24 @@ settings:
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
     ENABLE_USER_SCRIPT_SANDBOXING: YES
-targets:
-  AnkiGlance:
+targetTemplates:
+  App:
     type: application
     platform: macOS
     sources: [AnkiGlance]
     dependencies:
       - package: GlanceCore
     info:
-      path: AnkiGlance/Info.plist
       properties:
         CFBundleDisplayName: Anki Glance
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.education
         NSHumanReadableCopyright: Not affiliated with or endorsed by Ankitects Pty Ltd. Anki is a registered trademark of Ankitects Pty Ltd.
         NSAppTransportSecurity:
           NSAllowsLocalNetworking: true
     entitlements:
-      path: AnkiGlance/AnkiGlance.entitlements
       properties:
         com.apple.security.app-sandbox: true
         com.apple.security.network.client: true
@@ -42,3 +50,32 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.guodawei.ankiglance
         PRODUCT_NAME: Anki Glance
         ENABLE_HARDENED_RUNTIME: YES
+targets:
+  AnkiGlance:
+    templates: [App]
+    dependencies:
+      - package: Sparkle
+    info:
+      path: Config/Direct-Info.plist
+      properties:
+        SUFeedURL: https://davidguooo.github.io/anki-glance/appcast.xml
+        SUPublicEDKey: 1Sz/04XATS1VOKjX1gqjWEhBxZTo207O0+EC0TIKQPg=
+        # Check in the background from the first launch, without asking first.
+        SUEnableAutomaticChecks: true
+        # Lets Sparkle install the update from outside the sandbox.
+        SUEnableInstallerLauncherService: true
+    entitlements:
+      path: Config/Direct.entitlements
+      properties:
+        com.apple.security.temporary-exception.mach-lookup.global-name:
+          - $(PRODUCT_BUNDLE_IDENTIFIER)-spks
+          - $(PRODUCT_BUNDLE_IDENTIFIER)-spki
+    settings:
+      base:
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) SPARKLE
+  AnkiGlanceAppStore:
+    templates: [App]
+    info:
+      path: Config/AppStore-Info.plist
+    entitlements:
+      path: Config/AppStore.entitlements
